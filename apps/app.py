@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 import os
+from ultralytics import YOLO
 
 app = Flask(__name__)
 
@@ -16,9 +17,13 @@ def index():
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD'], filename))
         img = os.path.join(app.config['UPLOAD'], filename)
-        return render_template('index.html', img=img)
+        model = YOLO("best.pt")
+        if os.path.exists(os.path.join(app.config['UPLOAD'], "predict")):
+            os.remove(os.path.join(app.config['UPLOAD'], "predict"))
+        model.predict(img, save=True, project=app.config['UPLOAD'], name="predict")
+        annotated_img = os.path.join(app.config['UPLOAD'], "predict", filename)
+        return render_template('index.html', img=annotated_img)
     return render_template('index.html')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
