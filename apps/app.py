@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
-import os
+import os, shutil
 from ultralytics import YOLO
 
 app = Flask(__name__)
@@ -19,7 +19,7 @@ def index():
         img = os.path.join(app.config['UPLOAD'], filename)
         model = YOLO("best.pt")
         if os.path.exists(os.path.join(app.config['UPLOAD'], "predict")):
-            os.remove(os.path.join(app.config['UPLOAD'], "predict"))
+            shutil.rmtree(os.path.join(app.config['UPLOAD'], "predict"))
         model.predict(img, save=True, project=app.config['UPLOAD'], name="predict")
         annotated_img = os.path.join(app.config['UPLOAD'], "predict", filename)
         return render_template('index.html', img=annotated_img)
