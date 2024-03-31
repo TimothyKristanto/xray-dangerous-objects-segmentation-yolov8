@@ -12,20 +12,32 @@
             <h1 class="mt-5 text-center">Sistem Deteksi dan Segmentasi Objek Berbahaya dalam Citra X-ray Barang Penumpang Menggunakan YOLOV8</h1>
 
             <form action="{{ url_for('index') }}" enctype="multipart/form-data" method="POST" class="mt-3">
-                <input name="uploadedMedia" type="file" accept="image/png, video/mp4" onchange="form.submit()" class="form-control"/>
+                {% if type == "video" %}
+                    <input name="uploadedMedia" type="file" accept="image/png, video/mp4" onchange="form.submit()" class="form-control" onclick="endVideo()" />
+                {% else %}
+                    <input name="uploadedMedia" type="file" accept="image/png, video/mp4" onchange="form.submit()" class="form-control" />
+                {% endif %}
             </form>
 
             {% if result %}
                 {% if type == "image" %}
-                <img src="{{url_for('static', filename='images/' + result)}}" class="w-50 my-5">
+                    <img src="{{url_for('static', filename='images/' + result)}}" class="w-50 my-5">
                 {% elif type == "video" %}
-                <video class="w-75 my-3" controls>
-                    <source src="{{url_for('static', filename='images/' + result)}}" type="video/webm">
-                    Your browser does not support the video tag.
-                </video>
+                    <video id="resultVid" class="w-75 my-3" controls>
+                        <source src="{{url_for('static', filename='images/' + result)}}" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
                 {% endif %}
             {% endif %}
         </div>
     </div>
+
+    <script>
+        let vid = document.getElementById("resultVid");
+        
+        function endVideo() { 
+          vid.currentTime=vid.duration;
+        } 
+    </script> 
 </body>
 </html>

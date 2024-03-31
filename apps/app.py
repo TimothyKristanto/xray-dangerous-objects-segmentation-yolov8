@@ -33,8 +33,6 @@ def index():
 
         # check if predict path exist
         if os.path.exists(os.path.join(uploadFolder, "predict")):
-            # fd = os.open(os.path.join(uploadFolder, "predict", filename), os.O_RDONLY)
-            # os.close(fd)
             shutil.rmtree(os.path.join(uploadFolder, "predict")) # if predict path exist then remove it
         
         # predict and save result in predict path
