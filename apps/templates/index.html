@@ -13,9 +13,9 @@
 
             <form action="{{ url_for('index') }}" enctype="multipart/form-data" method="POST" class="mt-3">
                 {% if type == "video" %}
-                    <input name="uploadedMedia" type="file" accept="image/png, video/mp4" onchange="form.submit()" class="form-control" onclick="endVideo()" />
+                    <input name="uploadedMedia" type="file" accept="image/png, image/jpg, video/mp4" onchange="form.submit()" class="form-control" onclick="endVideo()" />
                 {% else %}
-                    <input name="uploadedMedia" type="file" accept="image/png, video/mp4" onchange="form.submit()" class="form-control" />
+                    <input name="uploadedMedia" type="file" accept="image/png, image/jpg, video/mp4" onchange="form.submit()" class="form-control" />
                 {% endif %}
             </form>
 
@@ -25,7 +25,7 @@
                 {% elif type == "video" %}
                     <video id="resultVid" class="w-75 my-3" controls>
                         <source src="{{url_for('static', filename='images/' + result)}}" type="video/webm">
-                        Your browser does not support the video tag.
+                        Browser Anda tidak support penampilan video.
                     </video>
                 {% endif %}
             {% endif %}
